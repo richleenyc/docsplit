@@ -41,7 +41,7 @@ module Docsplit
         raise ExtractionFailed, result if $? != 0
       else
         page_list(pages).each do |page|
-          out_file  = ESCAPE[File.join('tmp', directory, "#{basename}_#{page}.#{format}")]
+          out_file  = ESCAPE[File.join(directory, "#{basename}_#{page}.#{format}")]
           cmd = "MAGICK_TMPDIR=#{tempdir} OMP_NUM_THREADS=2 gm convert +adjoin -define pdf:use-cropbox=true #{common} #{escaped_pdf}[#{page - 1}] #{out_file} 2>&1".chomp
           result = `#{cmd}`.chomp
           raise ExtractionFailed, result if $? != 0
@@ -68,7 +68,7 @@ module Docsplit
     # If there's only one size requested, generate the images directly into
     # the output directory. Multiple sizes each get a directory of their own.
     def directory_for(size)
-      path = @sizes.length == 1 ? @output : File.join(@output, size)
+      path = @sizes.length == 1 ? @output : File.join('tmp', @output, size)
       File.expand_path(path)
     end
 
