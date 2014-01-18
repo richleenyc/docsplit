@@ -15,10 +15,10 @@ module Docsplit
         cmd = if DEPENDENCIES[:pdftailor] # prefer pdftailor, but keep pdftk for backwards compatability
           "pdftailor unstitch --output #{ESCAPE[page_path]} #{ESCAPE[pdf]} 2>&1"
         else
-          "pdftk #{ESCAPE[pdf]} burst output #{CF_TEMP_DIR}/#{ESCAPE[page_path]} 2>&1"
+          "pdftk #{ESCAPE[pdf]} burst output #{CF_OUTPUT_DIR}/#{ESCAPE[page_path]} 2>&1"
         end
         result = `#{cmd}`.chomp
-        FileUtils.rm('#{CF_TEMP_DIR}/doc_data.txt') if File.exists?('#{CF_TEMP_DIR}/doc_data.txt')
+        FileUtils.rm('#{CF_OUTPUT_DIR}/doc_data.txt') if File.exists?('#{CF_OUTPUT_DIR}/doc_data.txt')
         raise ExtractionFailed, result if $? != 0
         result
       end

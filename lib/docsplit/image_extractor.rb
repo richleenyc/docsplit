@@ -68,7 +68,7 @@ module Docsplit
     # If there's only one size requested, generate the images directly into
     # the output directory. Multiple sizes each get a directory of their own.
     def directory_for(size)
-      path = @sizes.length == 1 ? @output : File.join(CF_TEMP_DIR, @output, size)
+      path = @sizes.length == 1 ? @output : File.join(CF_OUTPUT_DIR, @output, size)
       File.expand_path(path)
     end
 
