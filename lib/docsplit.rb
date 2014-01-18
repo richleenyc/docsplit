@@ -18,6 +18,8 @@ module Docsplit
 
   DEPENDENCIES  = {:java => false, :gm => false, :pdftotext => false, :pdftk => false, :pdftailor => false, :tesseract => false}
 
+  CF_TEMP_DIR = 'tmp'
+
   # Check for all dependencies, and note their absence.
   dirs = ENV['PATH'].split(File::PATH_SEPARATOR)
   DEPENDENCIES.each_key do |dep|
