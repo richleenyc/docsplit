@@ -8,17 +8,17 @@ module Docsplit
     def extract(pdfs, opts)
       extract_options opts
       [pdfs].flatten.each do |pdf|
-        pdf_name = File.basename(pdf, File.extname(pdf))
-        page_path = File.join(@output, "#{pdf_name}_%d.pdf")
+        page_path = "#{pdf}_%d"
+        output_dir = File.split(pdf)[0]
         FileUtils.mkdir_p @output unless File.exists?(@output)
         
         cmd = if DEPENDENCIES[:pdftailor] # prefer pdftailor, but keep pdftk for backwards compatability
           "pdftailor unstitch --output #{ESCAPE[page_path]} #{ESCAPE[pdf]} 2>&1"
         else
-          "pdftk #{ESCAPE[pdf]} burst output #{CF_OUTPUT_DIR}/#{ESCAPE[page_path]} 2>&1"
+          "pdftk #{ESCAPE[pdf]} burst output #{ESCAPE[page_path]} 2>&1"
         end
         result = `#{cmd}`.chomp
-        FileUtils.rm('#{CF_OUTPUT_DIR}/doc_data.txt') if File.exists?('#{CF_OUTPUT_DIR}/doc_data.txt')
+        FileUtils.rm('#{output_dir}/doc_data.txt') if File.exists?('#{output_dir}/doc_data.txt')
         raise ExtractionFailed, result if $? != 0
         result
       end
