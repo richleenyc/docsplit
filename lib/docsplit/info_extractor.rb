@@ -35,6 +35,7 @@ module Docsplit
       end
       info = {}
       MATCHERS.each do |key, matcher|
+binding.pry
         match = result.match(matcher)
         answer = match && match[1]
         if answer
