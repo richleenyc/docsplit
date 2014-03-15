@@ -27,7 +27,7 @@ module Docsplit
       raise ExtractionFailed, result if $? != 0
       # ruby  1.8 (iconv) and 1.9 (String#encode) :
       if String.method_defined?(:encode)
-        result.encode!('UTF-8', 'UTF-8', :invalid => :replace)
+        result.encode!('UTF-8', 'UTF-8', :invalid => :replace, :undef => :replace)
       else
         require 'iconv' unless defined?(Iconv)
         ic = Iconv.new('UTF-8//IGNORE','UTF-8')
@@ -35,7 +35,6 @@ module Docsplit
       end
       info = {}
       MATCHERS.each do |key, matcher|
-binding.pry
         match = result.match(matcher)
         answer = match && match[1]
         if answer
